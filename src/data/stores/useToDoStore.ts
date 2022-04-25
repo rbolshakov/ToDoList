@@ -18,12 +18,12 @@ export const useToDoStore = create<ToDoStore>((set, get) => ({
 	tasks: [
 		{
 			id: "asdkl",
-			title: "default task",
+			title: "Автоматически созданная задача",
 			createdAt: 2323423,
 		},
 		{
 			id: "asdklasdfas",
-			title: "default task 2",
+			title: "Автоматически созданная задача 2",
 			createdAt: 2323423,
 		},
 	],

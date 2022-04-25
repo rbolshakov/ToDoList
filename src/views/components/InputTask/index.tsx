@@ -16,12 +16,15 @@ export const InputTask: React.FC<InputTaskProps> = ({
 	onRemoved,
 }) => {
 	const [checked, setChecked] = useState(false)
+	const [isEditMode, setIsEditMode] = useState(false)
+	const [value, setValue] = useState(title)
 
 	return (
 		<div className={styles.inputTask}>
-			<label>
+			<label className={styles.inputTaskLabel}>
 				<input
 					type='checkbox'
+					disabled={isEditMode}
 					checked={checked}
 					className={styles.inputTaskCheckbox}
 					onChange={(ev) => {
@@ -31,9 +34,48 @@ export const InputTask: React.FC<InputTaskProps> = ({
 						}
 					}}
 				/>
-				<h3 className={styles.inputTaskTitle}>{title}</h3>
+
+				{isEditMode ? (
+					<input
+						value={value}
+						onChange={(ev) => {
+							setValue(ev.target.value)
+						}}
+						className={styles.inputTaskTitleEdit}
+					/>
+				) : (
+					<h3 className={styles.inputTaskTitle}>{title}</h3>
+				)}
 			</label>
-			<button area-aria-label='Edit' />
+
+			{isEditMode ? (
+				<button
+					area-aria-label='Save'
+					className={styles.inputTaskSave}
+					onClick={() => {
+						onEdited(id, value)
+						setIsEditMode(false)
+					}}
+				/>
+			) : (
+				<button
+					area-aria-label='Edit'
+					className={styles.inputTaskEdit}
+					onClick={() => {
+						setIsEditMode(true)
+					}}
+				/>
+			)}
+
+			<button
+				area-aria-label='Remove'
+				className={styles.inputTaskRemove}
+				onClick={() => {
+					if (confirm("Вы уверены?")) {
+						onRemoved(id)
+					}
+				}}
+			/>
 		</div>
 	)
 }
